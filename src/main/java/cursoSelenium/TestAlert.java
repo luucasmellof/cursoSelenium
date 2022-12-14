@@ -27,7 +27,7 @@ public class TestAlert {
 	}
 	
 	@Test
-	public void deveInteragirComAlertConfirm() {
+	public void deveInteragirComAlertConfirmAcept() {
 		WebDriver driver = new ChromeDriver();
 		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
 		WebElement buttonAlert = driver.findElement(By.id("confirm"));
@@ -42,8 +42,46 @@ public class TestAlert {
 		alert.accept();
 		//nameField.sendKeys(alertText);
 		
-		//driver.quit();
+		driver.quit();
 	}
 	
+	@Test
+	public void deveInteragirComAlertConfirmDismiss() {
+		WebDriver driver = new ChromeDriver();
+		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
+		WebElement buttonAlert = driver.findElement(By.id("confirm"));
+		buttonAlert.click();
+		Alert alert = driver.switchTo().alert();
+		String alertText1 = alert.getText();
+		Assert.assertEquals("Confirm Simples", alertText1);
+		alert.dismiss();
+		String alertText2 = alert.getText();
+		Assert.assertEquals("Negado", alertText2);
+		alert.accept();
+		
+		driver.quit();
+	}
 	
+	@Test
+	public void deveInteragirComAlertPromptAcept() {
+		WebDriver driver = new ChromeDriver();
+		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
+		WebElement buttonAlert = driver.findElement(By.id("prompt"));
+		
+		// Clica no botão alert, escreve algo e aceita
+		buttonAlert.click();
+		Alert alert = driver.switchTo().alert();
+		String sendKey = "5";
+		alert.sendKeys(sendKey);
+		alert.accept();
+		
+		// Verifica o texto do próximo alert e confirma
+		String confirmText = alert.getText();
+		Assert.assertEquals("Era " + sendKey + "?", confirmText);
+		alert.accept();
+		Assert.assertEquals(":D", alert.getText());
+		alert.accept();
+		
+		driver.quit();
+	}
 }
