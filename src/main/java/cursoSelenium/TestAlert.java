@@ -40,7 +40,6 @@ public class TestAlert {
 		String alertText2 = alert.getText();
 		Assert.assertEquals("Confirmado", alertText2);
 		alert.accept();
-		//nameField.sendKeys(alertText);
 		
 		driver.quit();
 	}
